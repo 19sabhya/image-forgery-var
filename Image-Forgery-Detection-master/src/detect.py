@@ -24,17 +24,17 @@ if __name__ == '__main__':
         cmd.print_help()
         sys.exit()
     im_str = args[0]
+    
+    print('\nRunning CFA artifact detection...\n')
+    identical_regions_cfa = copy_move_cfa.detect('..//images//' + im_str, opt, args)
+    print('\n' + identical_regions_cfa, 'CFA artifacts detected')
 
     print('\nRunning double jpeg compression detection...')
     double_compressed = double_jpeg_compression.detect('..//images//' + im_str)
 
     if(double_compressed): print('\nDouble compression detected')
     else: print('\nSingle compressed')
-
-    print('\nRunning CFA artifact detection...\n')
-    identical_regions_cfa = copy_move_cfa.detect('..//images//' + im_str, opt, args)
-    print('\n' + identical_regions_cfa, 'CFA artifacts detected')
-
+        
     print('\nRunning noise variance inconsistency detection...')
     noise_forgery = noise_variance.detect('..//images//' + im_str)
 
