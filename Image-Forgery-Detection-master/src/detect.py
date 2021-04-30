@@ -1,5 +1,6 @@
 import cv2
 import sys
+from PIL import Image
 
 import double_jpeg_compression
 import copy_move_cfa
@@ -26,7 +27,7 @@ if __name__ == '__main__':
     im_str = args[0]
     
     print('\nRunning double jpeg compression detection...')
-    cv2_imshow('..//images//' + im_str)
+    Image.show('..//images//' + im_str)
     double_compressed = double_jpeg_compression.detect('..//images//' + im_str)
 
     if(double_compressed): print('\nDouble compression detected')
