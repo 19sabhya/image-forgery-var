@@ -23,7 +23,7 @@ if __name__ == '__main__':
     if not args:
         cmd.print_help()
         sys.exit()
-    im_str = '../' + args[0]
+    im_str = args[0]
     
     print('\nRunning double jpeg compression detection...')
     cv2.imshow('img', im_str)
