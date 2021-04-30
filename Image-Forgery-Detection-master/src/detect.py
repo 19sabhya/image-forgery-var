@@ -26,6 +26,6 @@ if __name__ == '__main__':
     im_str = args[0]
     
     print('\nRunning double jpeg compression detection...')
-    # cv2.imshow('img', im_str)
+    cv2.imshow('img', args[0])
     
     
