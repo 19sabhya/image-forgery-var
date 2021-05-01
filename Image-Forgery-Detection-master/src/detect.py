@@ -26,7 +26,7 @@ if __name__ == '__main__':
     im_str = args[0]
     
     print('\nRunning double jpeg compression detection...')
-    cv2.imshow('img', im_str)
+    #cv2.imshow('img', im_str)
     double_compressed = double_jpeg_compression.detect('..//images//' + im_str)
 
     if(double_compressed): print('\nDouble compression detected')
