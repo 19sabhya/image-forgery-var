@@ -34,7 +34,7 @@ if __name__ == '__main__':
         
     print('\nRunning CFA artifact detection...\n')
     identical_regions_cfa = copy_move_cfa.detect('..//images//' + im_str, opt, args)
-    print('\n' + identical_regions_cfa, 'CFA artifacts detected')
+    print('\n', identical_regions_cfa, 'CFA artifacts detected')
 
     print('\nRunning noise variance inconsistency detection...')
     noise_forgery = noise_variance.detect('..//images//' + im_str)
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     else: print('\nNo noise variance inconsistency detected')
 
     print('\nRunning copy-move detection...\n')
-    copy_move_detection.detect('../images/', im_str, '../output/', blockSize=32)
+    copy_move_detection.detect('..//images//', im_str, '..//output//', blockSize=32)
     print(identical_regions_cfa, 'identical regions detected')
 
     if ((not double_compressed) and (identical_regions_cfa == 0) and (not noise_forgery)):
