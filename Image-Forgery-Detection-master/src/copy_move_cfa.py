@@ -97,7 +97,10 @@ def similarparts(imagparts, opt):
 
 def clusterparts(parts, block_len, opt):
  parts = sorted(parts, key=op.itemgetter(-1))
- clusters = [[parts[0][-1]]]
+ if not parts:
+  clusters = []
+ else:
+  clusters = [[parts[0][-1]]]
 
  # assign all parts to clusters
  for i in range(1,len(parts)):
