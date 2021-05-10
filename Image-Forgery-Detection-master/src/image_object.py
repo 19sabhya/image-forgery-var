@@ -67,7 +67,7 @@ class image_object(object):
         timestampAfterSorting = time.time()
         self.analyze()
         timestampAfterAnalyze = time.time()
-        imageResultPath = self.reconstruct()
+        count = self.reconstruct()
         timestampAfterImageCreation = time.time()
 
         print("\tComputing time :", timestampAfterComputing - startTimestamp, "seconds")
@@ -79,7 +79,7 @@ class image_object(object):
         totalMinute, totalSecond = divmod(totalRunningTimeInSecond, 60)
         totalHour, totalMinute = divmod(totalMinute, 60)
         print("\tTotal time    : %d:%02d:%02d second" % (totalHour, totalMinute, totalSecond), '\n')
-        return imageResultPath
+        return count
 
     def compute(self):
         print("\tStep 2 of 4: Computing characteristic features")
@@ -161,6 +161,7 @@ class image_object(object):
 
     def reconstruct(self):
         print("\tStep 4 of 4: Image reconstruction")
+        count = 0
 
         # create an array as the canvas of the final image
         groundtruthImage = np.zeros((self.imageHeight, self.imageWidth))
@@ -171,6 +172,7 @@ class image_object(object):
             if self.offsetDictionary[key].__len__() < self.Nf * 2:
                 break
             print('\t', key, self.offsetDictionary[key].__len__())
+            count += 1
             for i in range(self.offsetDictionary[key].__len__()):
                 # The original image (grayscale)
                 for j in range(self.offsetDictionary[key][i][1],
@@ -232,4 +234,5 @@ class image_object(object):
         imageio.imwrite(self.imageOutputDirectory + (timeStamp + "_" + self.imagePath), groundtruthImage)
         imageio.imwrite(self.imageOutputDirectory + (timeStamp + "_lined_" + self.imagePath), linedImage)
 
-        return self.imageOutputDirectory + timeStamp + "_lined_" + self.imagePath
+        return count
+        # self.imageOutputDirectory + timeStamp + "_lined_" + self.imagePath
