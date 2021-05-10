@@ -43,12 +43,10 @@ if __name__ == '__main__':
     else: print('\nNo noise variance inconsistency detected')
 
     print('\nRunning copy-move detection...\n')
-    copy_move_detection.detect('..//images//', im_str, '..//output//', blockSize=32)
-    print(identical_regions_cfa, 'identical regions detected')
+    count_cmf = copy_move_detection.detect('..//images//', im_str, '..//output//', blockSize=32)
+    print(count_cmf, 'identical regions detected')
 
-    if ((not double_compressed) and (identical_regions_cfa == 0) and (not noise_forgery)):
+    if ((not double_compressed) and (identical_regions_cfa == 0) and (not noise_forgery) and (count_cmf == 0)):
         print('\nNo forgeries were detected - this image has probably not been tampered with.')
     else:
         print('\nSome forgeries were detected - this image may have been tampered with.')
-
-    
