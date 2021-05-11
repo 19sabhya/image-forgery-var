@@ -37,7 +37,7 @@ class image_object(object):
             self.isThisRGBImage = False
             self.imageData = self.imageData.convert('L')
 
-        # algorithm's parameters from the first paper
+        # algorithm's parameters 
         self.N = self.imageWidth * self.imageHeight
         self.blockDimension = blockDimension
         self.b = self.blockDimension * self.blockDimension
@@ -46,7 +46,6 @@ class image_object(object):
         self.Nf = 188  # minimum treshold of the offset's frequency
         self.Nd = 50  # minimum treshold of the offset's magnitude
 
-        # algorithm's parameters from the second paper
         self.P = (1.80, 1.80, 1.80, 0.0125, 0.0125, 0.0125, 0.0125)
         self.t1 = 2.80
         self.t2 = 0.02
@@ -59,7 +58,7 @@ class image_object(object):
         self.offsetDictionary = {}
 
     def run(self):
-        # time logging (optional, for evaluation purpose)
+        # time logging (for evaluation purpose)
         self.compute()
         startTimestamp = time.time()
         timestampAfterComputing = time.time()
@@ -124,7 +123,7 @@ class image_object(object):
             iFeature = self.featurescontainer.container[firstBlock][1]
             jFeature = self.featurescontainer.container[secondBlock][1]
 
-            # check the validity of characteristic features according to the second paper
+            # check the validity of characteristic features 
             if abs(iFeature[0] - jFeature[0]) < self.P[0]:
                 if abs(iFeature[1] - jFeature[1]) < self.P[1]:
                     if abs(iFeature[2] - jFeature[2]) < self.P[2]:
