@@ -5,6 +5,7 @@ import double_jpeg_compression
 import copy_move_cfa
 import copy_move_detection
 import noise_variance
+import ela_extractor
 
 from optparse import OptionParser
 
@@ -30,6 +31,10 @@ if __name__ == '__main__':
     print('\nDouble jpeg compression: ')
     double_compressed = double_jpeg_compression.detect('..//images//' + im_str)
 
+    print('\nELA: ')
+    ela = ela_extractor.getELA('..//images//', im_str, '..//output//')
+
+
     if(double_compressed): print('\tTRUE')
     else: print('\tFALSE')
         
@@ -43,8 +48,11 @@ if __name__ == '__main__':
     if(noise_forgery): print('\tTRUE')
     else: print('\tFALSE')
 
+    
     print('\nCopy-move regions: ')
-    count_cmf = copy_move_detection.detect('..//images//', im_str, '..//output//', blockSize=32)
+    count_cmf=0
+    if(not double_compressed):
+      count_cmf = copy_move_detection.detect('..//images//', im_str, '..//output//', blockSize=32)
     print('\n\t', count_cmf, 'identical regions detected')
 
     if ((not double_compressed) and (identical_regions_cfa == 0) and (not noise_forgery) and (count_cmf == 0)):
