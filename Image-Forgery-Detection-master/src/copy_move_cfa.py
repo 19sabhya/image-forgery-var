@@ -166,5 +166,6 @@ def detect(input, opt, args):
     out = input.split('.')[0] + '_analyzed.jpg'
     im.save(out)
     identical_regions = len(cparts) if int(opt.imauto) else 0
-    print('\tCopy-move output is saved in file -', out)
+    if(identical_regions):
+      print('\tCopy-move output is saved in file -', out)
     return(identical_regions)
