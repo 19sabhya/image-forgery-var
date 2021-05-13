@@ -12,7 +12,7 @@ import blocks
 
 class image_object(object):
     def __init__(self, imageDirectory, imageName, blockDimension, outputDirectory):
-        print("\tStep 1 of 4: Object and variable initialization")
+        # print("\tStep 1 of 4: Object and variable initialization")
 
         # image parameter
         self.imageOutputDirectory = outputDirectory
@@ -58,30 +58,15 @@ class image_object(object):
         self.offsetDictionary = {}
 
     def run(self):
-        # time logging (for evaluation purpose)
         self.compute()
-        startTimestamp = time.time()
-        timestampAfterComputing = time.time()
         self.sort()
-        timestampAfterSorting = time.time()
         self.analyze()
-        timestampAfterAnalyze = time.time()
         count = self.reconstruct()
-        timestampAfterImageCreation = time.time()
-
-        print("\tComputing time :", timestampAfterComputing - startTimestamp, "seconds")
-        print("\tSorting time   :", timestampAfterSorting - timestampAfterComputing, "seconds")
-        print("\tAnalyzing time :", timestampAfterAnalyze - timestampAfterSorting, "seconds")
-        print("\tImage creation :", timestampAfterImageCreation - timestampAfterAnalyze, "seconds")
-
-        totalRunningTimeInSecond = timestampAfterImageCreation - startTimestamp
-        totalMinute, totalSecond = divmod(totalRunningTimeInSecond, 60)
-        totalHour, totalMinute = divmod(totalMinute, 60)
-        print("\tTotal time    : %d:%02d:%02d second" % (totalHour, totalMinute, totalSecond), '\n')
+        
         return count
 
     def compute(self):
-        print("\tStep 2 of 4: Computing characteristic features")
+        # print("\tStep 2 of 4: Computing characteristic features")
 
         imageWidthOverlap = self.imageWidth - self.blockDimension
         imageHeightOverlap = self.imageHeight - self.blockDimension
@@ -105,7 +90,6 @@ class image_object(object):
         self.featurescontainer.sortFeatures()
 
     def analyze(self):
-        print("\tStep 3 of 4:Pairing image blocks")
         z = 0
         time.sleep(0.1)
         featurecontainerLength = self.featurescontainer.getLength()
@@ -159,7 +143,7 @@ class image_object(object):
             self.offsetDictionary[pairOffset] = [firstCoordinate, secondCoordinate]
 
     def reconstruct(self):
-        print("\tStep 4 of 4: Image reconstruction")
+        # print("\tCopy moved regions count: ")
         count = 0
 
         # create an array as the canvas of the final image
