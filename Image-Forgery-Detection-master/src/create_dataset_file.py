@@ -1,11 +1,12 @@
 import numpy as np
 import sys
 import os
+import shlex
 
 import detect
 import subprocess
 
-if __name__ == '__main__':
+def create_dataset():
   
   data_csv_file = open("../images/tpImages.csv", "w")
   format_ = ['.JPG' , '.jpg', 'jpeg', '.png', '.tiff', '.TIFF', '.Tiff', '.Tif', '.TIF', '.tif', '.bmp']
@@ -19,8 +20,3 @@ if __name__ == '__main__':
           break
   
   data_csv_file.close()
-  tpImagePaths = open('..//images//tpImages.csv', 'r').readlines()
-  tpImagePaths = sorted(tpImagePaths)
-  for imagePath in tpImagePaths:
-    a = imagePath.strip().rsplit('//', 1)
-    subprocess.check_output(['python', 'detect.py', str(a[1])])
