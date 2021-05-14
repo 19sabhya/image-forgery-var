@@ -1,8 +1,9 @@
 import numpy as np
 import sys
 import os
-import random
+
 import detect
+import subprocess
 
 if __name__ == '__main__':
   
@@ -22,5 +23,4 @@ if __name__ == '__main__':
   tpImagePaths = sorted(tpImagePaths)
   for imagePath in tpImagePaths:
     a = imagePath.strip().rsplit('//', 1)
-    print(a[1])
-    detect.detect(a[1])
+    subprocess.check_output(['python', 'detect.py', str(a[1])])
