@@ -21,15 +21,15 @@ def getImageDifference(image1, image2):
           outputMap[i][j][0] = float(red_diff * red_diff)
           outputMap[i][j][1] = float(green_diff * green_diff)
           outputMap[i][j][2] = float(blue_diff * blue_diff)
-    print('om: ', outputMap.shape)
+
     return outputMap
 
 def getELA(imageDirectory, imageName, outputDirectory):
     filename = imageDirectory+imageName
-    print('fn: ', filename)
+
     sc_width = 600
     sc_height = 600
-
+    
     quality = 75;
     displayMultiplier = 20;
 
@@ -54,12 +54,12 @@ def getELA(imageDirectory, imageName, outputDirectory):
     displaySurface_temp = intDifference
 
     ds_height = displaySurface_temp.shape[1]
-    ds_width = displaySurface_temp.shape[2]
+    ds_width = displaySurface_temp.shape[0]
 
     if (ds_height > ds_width):
         if (ds_height > sc_height):
             sc_width = (sc_height * ds_width) / ds_height
-            displaySurface = cv2.resize(displaySurface_temp, (sc_width, sc_height))
+            displaySurface = cv2.resize(displaySurface_temp, (int(sc_width), sc_height))
 
         else:
             displaySurface = displaySurface_temp
@@ -69,7 +69,8 @@ def getELA(imageDirectory, imageName, outputDirectory):
             displaySurface = cv2.resize(displaySurface_temp, (sc_width, sc_height))
         else:
             displaySurface = displaySurface_temp
-
+    print('ds: ', (displaySurface.shape))
+    displaySurface = displaySurface_temp
     cv2.imwrite(outputDirectory + 'difference_' + imageName , displaySurface)
 
     return origImage
