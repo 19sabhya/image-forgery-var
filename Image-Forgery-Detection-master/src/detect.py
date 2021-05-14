@@ -6,46 +6,32 @@ import copy_move_cfa
 import copy_move_detection
 import noise_variance
 import ela_extractor
+import create_dataset_file
 
 from optparse import OptionParser
 
 if __name__ == '__main__':
     
-    # copy-move parameters
-    cmf = OptionParser("usage: %prog image_file [options]")
-    cmf.add_option('', '--imauto', help='Automatically search identical regions. (default: %default)', default=1)
-    cmf.add_option('', '--imblev',help='Blur level for degrading image details. (default: %default)', default=8)
-    cmf.add_option('', '--impalred',help='Image palette reduction factor. (default: %default)', default=15)
-    cmf.add_option('', '--rgsim', help='Region similarity threshold. (default: %default)', default=5)
-    cmf.add_option('', '--rgsize',help='Region size threshold. (default: %default)', default=1.5)
-    cmf.add_option('', '--blsim', help='Block similarity threshold. (default: %default)',default=200)
-    cmf.add_option('', '--blcoldev', help='Block color deviation threshold. (default: %default)', default=0.2)
-    cmf.add_option('', '--blint', help='Block intersection threshold. (default: %default)', default=0.2)
-    opt, args = cmf.parse_args()
-    if not args:
-        cmf.print_help()
-        sys.exit()
-    im_str = args[0]
-    
+  create_dataset_file.create_dataset()
+  tpImagePaths = open('..//images//tpImages.csv', 'r').readlines()
+  tpImagePaths = sorted(tpImagePaths)
+  for imagePath in tpImagePaths:
+    a = imagePath.strip().rsplit('//', 1)
     
     startTimestamp = time.time()
-    print(im_str)
+    
     
     print('\nDouble jpeg compression: ')
-    double_compressed = double_jpeg_compression.detect('..//images//' + im_str)
-
-    print('\nELA: ')
-    ela = ela_extractor.getELA('..//images//', im_str, '..//output//')
+    double_compressed = double_jpeg_compression.detect('..//images//' + a[1])
 
     if(double_compressed): print('\tTRUE')
     else: print('\tFALSE')
         
-    print('\nCFA artifact count: ')
-    identical_regions_cfa = copy_move_cfa.detect('..//images//' + im_str, opt, args)
-    print('\t', identical_regions_cfa, 'CFA artifacts detected')
+    print('\nELA: ')
+    ela = ela_extractor.getELA('..//images//', a[1], '..//output//')
 
     print('\nNoise variance inconsistency: ')
-    noise_forgery = noise_variance.detect('..//images//' + im_str)
+    noise_forgery = noise_variance.detect('..//images//' + a[1])
 
     if(noise_forgery): print('\tTRUE')
     else: print('\tFALSE')
@@ -53,11 +39,11 @@ if __name__ == '__main__':
     
     print('\nCopy-move regions: ')
     count_cmf=0
-    if(not double_compressed):
-      count_cmf = copy_move_detection.detect('..//images//', im_str, '..//output//', blockSize=32)
+    #if(not double_compressed):
+    count_cmf = copy_move_detection.detect('..//images//', a[1], '..//output//', blockSize=32)
     print('\n\t', count_cmf, 'identical regions detected')
 
-    if ((not double_compressed) and (identical_regions_cfa == 0) and (not noise_forgery) and (count_cmf == 0)):
+    if ((not double_compressed) and (not noise_forgery) and (count_cmf == 0)):
         print('\nNo forgeries were detected - this image has probably not been tampered with.')
     else:
         print('\nSome forgeries were detected - this image may have been tampered with.')
@@ -67,4 +53,8 @@ if __name__ == '__main__':
     totalMinute, totalSecond = divmod(totalRunningTimeInSecond, 60)
     totalHour, totalMinute = divmod(totalMinute, 60)
     print("\tTotal time    : %d:%02d:%02d second" % (totalHour, totalMinute, totalSecond), '\n')
+
+    double_compressed = False
+    noise_forgery = False
+    count_cmf = 0
         
