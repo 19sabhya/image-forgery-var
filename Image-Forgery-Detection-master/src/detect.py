@@ -9,8 +9,8 @@ import ela_extractor
 
 from optparse import OptionParser
 
-def detect(cmf):
-    cmf= 
+if __name__ == '__main__':
+    
     # copy-move parameters
     cmf = OptionParser("usage: %prog image_file [options]")
     cmf.add_option('', '--imauto', help='Automatically search identical regions. (default: %default)', default=1)
@@ -26,16 +26,16 @@ def detect(cmf):
         cmf.print_help()
         sys.exit()
     im_str = args[0]
-    print(im_str)
+    
     
     startTimestamp = time.time()
+    print(im_str)
     
     print('\nDouble jpeg compression: ')
     double_compressed = double_jpeg_compression.detect('..//images//' + im_str)
 
     print('\nELA: ')
     ela = ela_extractor.getELA('..//images//', im_str, '..//output//')
-
 
     if(double_compressed): print('\tTRUE')
     else: print('\tFALSE')
